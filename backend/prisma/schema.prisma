@@ -1,0 +1,28 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int     @id @default(autoincrement())
+  username String? @unique
+  email     String? 
+  password String
+  blogs    Blog[]
+}
+
+
+model Blog {
+  id          Int @id @default(autoincrement())
+  content     String
+  title   String
+  published Boolean @default(false)
+  author User @relation(fields:[authorId],references:[id])      // author Users se relation rakhta hai aur relation kis bina par hai to wo fields jo ki authorid and reference id User ki bina par hai
+  authorId    Int
+}
+
+
